@@ -56,9 +56,13 @@
 				if(columns.length>0){
 					this.data = response.data.map(function(currentValue){
 						var obj = {};
-						currentValue.forEach(function(element, i){
-							obj[columns[i].name] = element;
-						});
+						if (Object.prototype.toString.call(currentValue) === "[object Object]") {
+							obj = currentValue;
+						} else {
+							currentValue.forEach(function(element, i){
+								obj[columns[i].name] = element;
+							});
+						}
 						return obj;
 					});
 				}else this.data = response.data;
