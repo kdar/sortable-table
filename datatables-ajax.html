@@ -4,8 +4,8 @@
 @demo http://files.stevenskelton.ca/sortable-table/examples/datatables-ajax
 -->
 
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../core-ajax/core-ajax.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
 
 <polymer-element hidden
 	name="datatables-ajax"
@@ -56,9 +56,13 @@
 				if(columns.length>0){
 					this.data = response.data.map(function(currentValue){
 						var obj = {};
-						currentValue.forEach(function(element, i){
-							obj[columns[i].name] = element;
-						});
+						if (Object.prototype.toString.call(currentValue) === "[object Object]") {
+							obj = currentValue;
+						} else {
+							currentValue.forEach(function(element, i){
+								obj[columns[i].name] = element;
+							});
+						}
 						return obj;
 					});
 				}else this.data = response.data;
